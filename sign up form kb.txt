@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SignupForm</title>
+<style>
+     body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+    }
+
+    form {
+        width: 300px; /* Set a width for the form */
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    .message {
+        display: none;
+        color: green;
+    }
+
+    .error {
+        display: none;
+        color: red;
+    }
+
+    input:invalid {
+        border: 1px solid red;
+    }
+
+    input:valid {
+        border: 1px solid green;
+    }
+
+    button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+    }
+</style>
+</head>
+<body>
+<form id="signupForm">
+    <label for="username">Username:</label><br>
+    <input type="text" id="username" name="username" pattern="[a-zA-Z0-9]{6,}" required>
+    <div class="message" id="usernameMessage">Username must be alphanumeric and at least 6 characters long.</div>
+    <div class="error" id="usernameError">Invalid username.</div><br>
+
+    <label for="email">Email:</label><br>
+    <input type="email" id="email" name="email" required>
+    <div class="message" id="emailMessage">Please enter a valid email address.</div>
+    <div class="error" id="emailError">Invalid email address.</div><br>
+
+    <label for="password">Password:</label><br>
+    <input type="password" id="password" name="password" pattern=".{8,}" required>
+    <div class="message" id="passwordMessage">Password must be at least 8 characters long.</div>
+    <div class="error" id="passwordError">Invalid password.</div><br>
+
+    <button type="submit" id="submitBtn" disabled>Submit</button>
+</form>
+
+<script>
+    const form = document.getElementById('signupForm');
+    const submitBtn = document.getElementById('submitBtn');
+
+    const usernameInput = document.getElementById('username');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+
+    const usernameMessage = document.getElementById('usernameMessage');
+    const emailMessage = document.getElementById('emailMessage');
+    const passwordMessage = document.getElementById('passwordMessage');
+
+    const usernameError = document.getElementById('usernameError');
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+
+    function validateUsername() {
+        if (usernameInput.validity.valid) {
+            usernameMessage.style.display = 'block';
+            usernameError.style.display = 'none';
+            return true;
+        } else {
+            usernameMessage.style.display = 'none';
+            usernameError.style.display = 'block';
+            return false;
+        }
+    }
+
+    function validateEmail() {
+        if (emailInput.validity.valid) {
+            emailMessage.style.display = 'block';
+            emailError.style.display = 'none';
+            return true;
+        } else {
+            emailMessage.style.display = 'none';
+            emailError.style.display = 'block';
+            return false;
+        }
+    }
+
+    function validatePassword() {
+        if (passwordInput.validity.valid) {
+            passwordMessage.style.display = 'block';
+            passwordError.style.display = 'none';
+            return true;
+        } else {
+            passwordMessage.style.display = 'none';
+            passwordError.style.display = 'block';
+            return false;
+        }
+    }
+
+    function validateForm() {
+        return validateUsername() && validateEmail() && validatePassword();
+    }
+
+    usernameInput.addEventListener('input', validateUsername);
+    emailInput.addEventListener('input', validateEmail);
+    passwordInput.addEventListener('input', validatePassword);
+
+    form.addEventListener('input', function() {
+        submitBtn.disabled = !validateForm();
+    });
+
+    form.addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent form submission
+        alert('Form submitted successfully!');
+        form.reset(); // Reset form after submission
+        submitBtn.disabled = true; // Disable submit button
+    });
+</script>
+</body>
+</html>
